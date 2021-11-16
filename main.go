@@ -1,23 +1,27 @@
 package main
 
 import (
-	"image"
 	"ines/nes"
 	"ines/ui"
+	"os"
 )
 
 func main() {
-
-	console, err := nes.NewConsole("mario.nes")
-
+	args := os.Args
+	if len(args) <= 1 {
+		panic("need rom path")
+	}
+	file := args[1]
+	info, err := os.Stat(file)
 	if err != nil {
 		panic(err)
 	}
-	console.Reset()
-
-	ui.OpenWindow(console, func() image.Image {
-		frame := console.Buffer()
-		return frame
-	})
-
+	if info.IsDir() {
+		panic("invalid path")
+	}
+	console, err := nes.NewConsole(file)
+	if err != nil {
+		panic(err)
+	}
+	ui.OpenWindow(console)
 }

@@ -1,10 +1,17 @@
+/*
+mapper0和mapper2共用
+魂斗罗/沙曼陀蛇都是mapper2
+*/
+
 package nes
 
-import "log"
+import (
+	"fmt"
+)
 
 /**
 BANK是每个Mapper载入的单位
-根据地址划分为每8KB一个BANK, 一共8个区块:
+根据地址划分为每8KB(0x2000 byte)一个BANK, 一共8个区块:
 
 0: [$0000, $2000) cpu 内存
 1: [$2000, $4000) PPU 寄存器
@@ -35,7 +42,7 @@ func NewMapper0(card *Cartridge) Mapper {
 	return &Mapper0{card, prgBanks, prgBank1, prgBank2}
 }
 
-func (mapper Mapper0) Read(addr uint16) byte {
+func (mapper *Mapper0) Read(addr uint16) byte {
 	card := mapper.card
 	switch {
 	case addr < 0x2000:
@@ -50,12 +57,12 @@ func (mapper Mapper0) Read(addr uint16) byte {
 		index := int(addr) - 0x6000
 		return card.SRAM[index]
 	default:
-		log.Fatalf("unhandled mapper2 read at addr: 0x%04X", addr)
+		fmt.Printf("unhandled mapper2 read at addr: 0x%04X", addr)
 	}
 	return 0
 }
 
-func (mapper Mapper0) Write(addr uint16, value byte) {
+func (mapper *Mapper0) Write(addr uint16, value byte) {
 	card := mapper.card
 
 	switch {
@@ -67,19 +74,6 @@ func (mapper Mapper0) Write(addr uint16, value byte) {
 		index := int(addr) - 0x6000
 		card.SRAM[index] = value
 	default:
-		log.Fatalf("unhandled mapper2 write at addr: 0x%04X", addr)
+		fmt.Printf("unhandled mapper2 write at addr: 0x%04X", addr)
 	}
-
-	// mirrored := len(mapper.card.PRG) == 16*1024
-	// if addr < 0x2000 {
-	// 	card.CHR[addr&0x07ff] = value
-	// } else if addr >= 0x8000 {
-	// 	pos := addr
-	// 	if mirrored {
-	// 		pos = addr & 0xbfff
-	// 	}
-	// 	card.PRG[pos-0x8000] = value
-	// } else if addr >= 0x6000 {
-	// 	card.SRAM[addr-0x6000] = value
-	// }
 }

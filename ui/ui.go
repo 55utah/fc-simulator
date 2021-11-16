@@ -45,15 +45,19 @@ func keyParse(ev *fyne.KeyEvent) int {
 
 var ctrl1 [8]bool
 
-func OpenWindow(console *nes.Console, getFrame func() image.Image) {
+var frame image.Image = image.NewRGBA(image.Rect(0, 0, 1, 1))
+
+func OpenWindow(console *nes.Console) {
 
 	myApp := app.New()
 	w := myApp.NewWindow("TinyFC")
-	w.Resize(fyne.NewSize(260, 260))
-	myCanvas := w.Canvas()
+	width := 256
+	height := 240
+	buf := 20
+	w.Resize(fyne.NewSize(width+buf, height+buf))
 
 	// 禁止用户缩放窗口
-	// w.SetFixedSize(true)
+	w.SetFixedSize(true)
 
 	go func() {
 		RunView(console)
@@ -66,7 +70,9 @@ func OpenWindow(console *nes.Console, getFrame func() image.Image) {
 				return
 			}
 			ctrl1[index] = true
-			console.SetButton1(ctrl1)
+			if console != nil {
+				console.SetButton1(ctrl1)
+			}
 		})
 		deskCanvas.SetOnKeyUp(func(ev *fyne.KeyEvent) {
 			index := keyParse(ev)
@@ -74,21 +80,34 @@ func OpenWindow(console *nes.Console, getFrame func() image.Image) {
 				return
 			}
 			ctrl1[index] = false
-			console.SetButton1(ctrl1)
+			if console != nil {
+				console.SetButton1(ctrl1)
+			}
 		})
 	}
 
-	go changeContent(myCanvas, getFrame)
+	// 使用raster更新canvas画板，性能好一点
+	raster := canvas.NewRaster(func(w, h int) image.Image {
+		return frame
+	})
+	// wrap := container.NewGridWithRows(1, btn1)
+	// layout := layout.NewGridWrapLayout(fyne.NewSize(int((float32(width) * zoom)), int(float32(height)*zoom)))
+	// winRaster := fyne.NewContainerWithLayout(layout, raster)
+	// document := container.NewVBox(wrap, winRaster)
 
+	go changeContent(raster, func() image.Image {
+		return console.Buffer()
+	})
+
+	w.SetContent(raster)
 	w.ShowAndRun()
 }
 
-func changeContent(can fyne.Canvas, getFrame func() image.Image) {
+func changeContent(raster *canvas.Raster, getFrame func() image.Image) {
 	for {
 		// 模拟接近60fps的图像刷新率
 		time.Sleep(time.Millisecond * 20)
-		result := getFrame()
-		res := canvas.NewImageFromImage(result)
-		can.SetContent(res)
+		frame = getFrame()
+		raster.Refresh()
 	}
 }
