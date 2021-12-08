@@ -1,22 +1,11 @@
 package nes
 
 import (
-	"io/ioutil"
-	"os"
 	"strings"
 )
 
-func LoadNESRom(url string) (*Cartridge, error) {
-	file, err := os.Open(url)
-	if err != nil {
-		panic(err)
-	}
-	defer file.Close()
-	// []byte
-	info, err2 := ioutil.ReadAll(file)
-	if err2 != nil {
-		panic(err2)
-	}
+func LoadNESRom(info []byte) (*Cartridge, error) {
+
 	tag := info[0:4]
 	if !strings.Contains(string(tag), "NES") {
 		panic("Err: not NES file.")

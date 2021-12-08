@@ -33,20 +33,19 @@ func (mem *CPUMemory) Read(addr uint16) byte {
 	case addr == 0x4014:
 		return mem.console.PPU.readRegister(addr)
 	case addr == 0x4015:
-		// TODO
+		return mem.console.APU.ReadRegister(addr)
 	case addr == 0x4016:
 		return mem.console.Controller1.Read()
 	case addr == 0x4017:
 		return mem.console.Controller2.Read()
 	case addr < 0x6000:
 		// TODO
-		panic("to finish")
+		return 0
 	case addr >= 0x6000:
 		return mem.console.Mapper.Read(addr)
 	default:
-		panic("to finish")
+		return 0
 	}
-	return 0
 }
 
 func (mem *CPUMemory) Write(addr uint16, value byte) {
@@ -54,19 +53,20 @@ func (mem *CPUMemory) Write(addr uint16, value byte) {
 	case addr < 0x2000:
 		mem.RAM[addr%0x0800] = value
 	case addr < 0x4000:
-		// fmt.Printf("go ppu %x %x \n", addr, value)
 		mem.console.PPU.writeRegister(0x2000+addr%8, value)
+	case addr >= 0x4000 && addr < 0x4014:
+		mem.console.APU.writeRegister(addr, value)
 	case addr == 0x4014:
 		mem.console.PPU.writeRegister(addr, value)
 	case addr == 0x4015:
-		// TODO
+		mem.console.APU.writeRegister(addr, value)
 	case addr == 0x4016:
 		mem.console.Controller1.Write(value)
 		mem.console.Controller2.Write(value)
 	case addr == 0x4017:
-		// TODO
+		mem.console.APU.writeRegister(addr, value)
 	case addr < 0x6000:
-		// TODO
+		// TODO IO寄存器？
 	case addr >= 0x6000:
 		mem.console.Mapper.Write(addr, value)
 	default:

@@ -7,8 +7,8 @@ import "image"
 */
 
 type Console struct {
-	CPU *CPU
-	// APU         *APU
+	CPU         *CPU
+	APU         *APU
 	PPU         *PPU
 	Card        *Cartridge
 	Controller1 *Controller
@@ -17,8 +17,8 @@ type Console struct {
 	RAM         []byte
 }
 
-func NewConsole(path string) (*Console, error) {
-	card, err := LoadNESRom(path)
+func NewConsole(info []byte) (*Console, error) {
+	card, err := LoadNESRom(info)
 	if err != nil {
 		return nil, err
 	}
@@ -28,21 +28,23 @@ func NewConsole(path string) (*Console, error) {
 	ctrl2 := NewController()
 
 	console := &Console{
-		nil, nil, card, ctrl1, ctrl2, nil, ram,
+		nil, nil, nil, card, ctrl1, ctrl2, nil, ram,
 	}
-	mapper, err := NewMapper(card)
+	mapper, err := NewMapper(card, console)
 	if err != nil {
 		return nil, err
 	}
 	console.Mapper = mapper
 	console.CPU = NewCPU(console)
 	console.PPU = NewPPU(console)
+	console.APU = NewAPU(console)
 
 	return console, nil
 }
 
 func (console *Console) Reset() {
 	console.CPU.Reset()
+	console.PPU.Reset()
 }
 
 func (console *Console) Step() int64 {
@@ -51,6 +53,11 @@ func (console *Console) Step() int64 {
 	ppuCycles := cpuCycles * 3
 	for i := 0; int64(i) < ppuCycles; i++ {
 		console.PPU.Step()
+		// 部分mapper需要时钟信息
+		console.Mapper.Step()
+	}
+	for j := 0; int64(j) < cpuCycles; j++ {
+		console.APU.Step()
 	}
 	return cpuCycles
 }
@@ -68,6 +75,22 @@ func (console *Console) SetButton1(buttons [8]bool) {
 
 func (console *Console) SetButton2(buttons [8]bool) {
 	console.Controller2.SetButtons(buttons)
+}
+
+// func (console *Console) SetAudioChannel(channel chan float32) {
+// 	console.APU.channel = channel
+// }
+
+// 将音频通过回调输出
+func (console *Console) SetAudioOutputWork(callback func(float32)) {
+	console.APU.outputWork = callback
+}
+
+func (console *Console) SetAudioSampleRate(sampleRate float64) {
+	if sampleRate != 0 {
+		// 将每秒帧率设置为每秒cpu步长
+		console.APU.sampleRate = CPUFrequency / sampleRate
+	}
 }
 
 func (console *Console) Buffer() *image.RGBA {

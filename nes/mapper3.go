@@ -53,3 +53,5 @@ func (m *Mapper3) Write(address uint16, value byte) {
 		fmt.Printf("unhandled mapper3 write at address: 0x%04X", address)
 	}
 }
+
+func (mapper *Mapper3) Step() {}

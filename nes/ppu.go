@@ -86,7 +86,6 @@ func NewPPU(console *Console) *PPU {
 }
 
 func (ppu *PPU) Reset() {
-	// TODO
 	ppu.flagNameTable = 0
 	ppu.flagBackgroundTable = 0
 	ppu.writeOAMAddr(0)
@@ -131,15 +130,6 @@ func (ppu *PPU) tick() {
 		}
 	}
 
-	// ppu.Cycle++
-	// if ppu.Cycle >= 340 {
-	// 	ppu.Cycle = 0
-	// 	ppu.ScanLine++
-	// 	if ppu.ScanLine >= 261 {
-	// 		ppu.ScanLine = 0
-	// 		ppu.Frame++
-	// 	}
-	// }
 }
 
 func (ppu *PPU) Step() {

@@ -26,6 +26,7 @@ const (
 	BRK = 0xfffe
 )
 
+// CPU的时钟频率是1.79MHz，每秒1.79 * 10^6次，CPUFrequency * seconds 即可得到时钟数！
 const CPUFrequency = 1789773
 
 const (

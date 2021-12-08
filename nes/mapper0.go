@@ -26,6 +26,7 @@ $FFFE-FFFF = IRQ/BRK
 
 两byte存的是中断触发时跳转到的制定位置的16位地址
 
+PRG每块16kb（0x4000） CHR每块8kb(0x2000)
 */
 
 type Mapper0 struct {
@@ -77,3 +78,5 @@ func (mapper *Mapper0) Write(addr uint16, value byte) {
 		fmt.Printf("unhandled mapper2 write at addr: 0x%04X", addr)
 	}
 }
+
+func (mapper *Mapper0) Step() {}

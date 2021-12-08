@@ -3,6 +3,7 @@ package main
 import (
 	"ines/nes"
 	"ines/ui"
+	"io/ioutil"
 	"os"
 )
 
@@ -11,15 +12,30 @@ func main() {
 	if len(args) <= 1 {
 		panic("need rom path")
 	}
-	file := args[1]
-	info, err := os.Stat(file)
+	filePath := args[1]
+	info, err := os.Stat(filePath)
 	if err != nil {
 		panic(err)
 	}
 	if info.IsDir() {
 		panic("invalid path")
 	}
-	console, err := nes.NewConsole(file)
+
+	// 调试用
+	// filePath := "/Users/utahcoder/Desktop/nes-roms/mapper4/热血格斗.nes"
+
+	file, err := os.Open(filePath)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	// []byte
+	fileData, err2 := ioutil.ReadAll(file)
+	if err2 != nil {
+		panic(err2)
+	}
+
+	console, err := nes.NewConsole(fileData)
 	if err != nil {
 		panic(err)
 	}
