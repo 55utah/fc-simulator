@@ -13,6 +13,8 @@ func NewMapper(card *Cartridge, console *Console) (Mapper, error) {
 	switch card.Mapper {
 	case 0:
 		return NewMapper0(card), nil
+	case 1:
+		return NewMapper1(card), nil
 	case 2:
 		return NewMapper0(card), nil
 	case 3:

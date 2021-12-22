@@ -22,7 +22,7 @@ func main() {
 	}
 
 	// 调试用
-	// filePath := "/Users/utahcoder/Desktop/nes-roms/mapper4/热血格斗.nes"
+	// filePath := "/Users/utahcoder/Desktop/nes-roms/中东战争.nes"
 
 	file, err := os.Open(filePath)
 	if err != nil {

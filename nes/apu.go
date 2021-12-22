@@ -529,7 +529,9 @@ func (apu *APU) Step() {
 func (apu *APU) sendSample() {
 	output := apu.output()
 	// apu.channel <- output
-	apu.outputWork(output)
+	if apu.outputWork != nil {
+		apu.outputWork(output)
+	}
 }
 
 // 帧计数器
