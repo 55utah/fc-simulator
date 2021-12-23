@@ -1,4 +1,4 @@
-module ines
+module github.com/55utah/ines
 
 go 1.15
 
