@@ -1,8 +1,9 @@
 package ui
 
 import (
-	"ines/nes"
 	"time"
+
+	"github.com/55utah/fc-simulator/nes"
 )
 
 var stop bool = false

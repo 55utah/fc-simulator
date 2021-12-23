@@ -14,7 +14,7 @@ import (
 	"fyne.io/fyne/driver/desktop"
 	"github.com/gordonklaus/portaudio"
 
-	"ines/nes"
+	"github.com/55utah/fc-simulator/nes"
 )
 
 var ctrl1 [8]bool

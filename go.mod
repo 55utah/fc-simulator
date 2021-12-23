@@ -1,4 +1,4 @@
-module github.com/55utah/ines
+module github.com/55utah/fc-simulator
 
 go 1.15
 

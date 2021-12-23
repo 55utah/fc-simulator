@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"ines/nes"
+	"github.com/55utah/fc-simulator/nes"
 
 	"github.com/gordonklaus/portaudio"
 )

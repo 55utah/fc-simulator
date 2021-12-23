@@ -1,10 +1,11 @@
 package main
 
 import (
-	"ines/nes"
-	"ines/ui"
 	"io/ioutil"
 	"os"
+
+	"github.com/55utah/fc-simulator/nes"
+	"github.com/55utah/fc-simulator/ui"
 )
 
 func main() {
