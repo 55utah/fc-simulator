@@ -5,7 +5,7 @@
 ### 音效
 支持音效
 ### GUI
-选择了fyne
+选择了fyne.io
 ### 桌面版使用方式
 源码
 `go run main.go /User/xxx/xxx.nes`
