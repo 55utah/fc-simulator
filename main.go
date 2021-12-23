@@ -10,7 +10,7 @@ import (
 func main() {
 	args := os.Args
 	if len(args) <= 1 {
-		panic("need rom path")
+		panic("need rom path.")
 	}
 	filePath := args[1]
 	info, err := os.Stat(filePath)
@@ -18,7 +18,7 @@ func main() {
 		panic(err)
 	}
 	if info.IsDir() {
-		panic("invalid path")
+		panic("invalid path.")
 	}
 
 	// 调试用
@@ -29,7 +29,7 @@ func main() {
 		panic(err)
 	}
 	defer file.Close()
-	// []byte
+
 	fileData, err2 := ioutil.ReadAll(file)
 	if err2 != nil {
 		panic(err2)
