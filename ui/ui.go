@@ -30,7 +30,7 @@ var ratio = 2
 func OpenWindow(console *nes.Console) {
 
 	myApp := app.New()
-	w := myApp.NewWindow("")
+	w := myApp.NewWindow("FC")
 	width := 256
 	height := 240
 	buf := 20
