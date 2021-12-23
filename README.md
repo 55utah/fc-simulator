@@ -28,7 +28,6 @@ R/T  选择/暂停
 J/K  游戏A/B键
 U/I  选择/暂停
 ```
-
 ### 效果展示
 
 <img src="https://user-images.githubusercontent.com/17704150/147229324-08580103-be82-4d53-8538-a989b95bb7df.gif" width="200">
