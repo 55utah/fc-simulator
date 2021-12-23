@@ -32,4 +32,4 @@ U/I  选择/暂停
 ### 效果展示
 
 <img src="https://user-images.githubusercontent.com/17704150/147229324-08580103-be82-4d53-8538-a989b95bb7df.gif" width="200">
-<img src="https://user-images.githubusercontent.com/17704150/147229374-ee675ec7-8a3d-426f-b669-510af8fa2004.gif" width="200">
+<img src="https://user-images.githubusercontent.com/17704150/147230553-55e57fbc-c0c5-4eb5-9fa1-7bc15af480d8.gif" width="200">
