@@ -7,6 +7,8 @@
 ### GUI
 选择了fyne.io
 ### 桌面版使用方式
+> 注意要先安装 portaudio; 在mac环境下安装方式：brew install portaudio
+
 源码
 `go run main.go /User/xxx/xxx.nes`
 二进制文件
