@@ -13,6 +13,12 @@
 `go run main.go /User/xxx/xxx.nes`
 二进制文件
 `./main /User/xxx/xxx.nes`
+### web版本
+**除桌面版外，还完成了可立即体验的web版本：**
+
+- 在线体验地址： https://55utah.github.io/wasm-nes/index.html
+- 开源项目： https://github.com/55utah/wasm-nes-web
+
 ### 桌面版操作
 ```
 系统按键:
